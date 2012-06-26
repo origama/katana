@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Demo: Custom Widget</title>
+		<link rel="stylesheet" href="style.css" media="screen">
+		<link rel="stylesheet" href="zencoders/katana/css/katana.css" media="screen">
+		<!-- Configure Dojo -->
+		<script>
+			// We're specifying our Dojo Configuration this way,
+			// as it's a bit more complex and easier to type out
+			// than a data-dojo-config string
+			 var dojoConfig = (function(){
+				var base = location.href.split("/");
+				base.pop();
+				base = base.join("/");
+				return {
+					async: true,
+					isDebug: true,
+					packages: [{
+						name: "zencoders",
+						location: base + "/zencoders"
+					}]
+				};
+			})();
+
+		</script>
+		<!-- Load up Dojo -->
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js" data-dojo-config="async: true">
+		</script>
+	</head>
+	<body>
+		<h1>Demo: Katana</h1>
+		<div id="katanaContainer"></div>
+		<script>
+			// Bring in our custom widget
+			require(["dojo/_base/xhr", "dojo/dom", "dojo/_base/array", "zencoders/katana/katana", "dojo/domReady!"],
+				function(xhr, dom, arrayUtil, katana){
+				kat=new katana();
+				// Load up our authors
+				var def = xhr.get({
+					url: "e333.dat",
+					handleAs: "text"
+				});
+
+				// Once ready, process the authors
+				def.then(function(naca){
+					// Get a reference to our container
+					var katanaContainer = dom.byId("katanaContainer");
+					katanaContainer.innerHTML=naca;
+					//arrayUtil.forEach(naca, function(naca){
+					    //console.log(">>>",naca)
+						// Create our widget and place it
+						//var widget = new AuthorWidget(author).placeAt(authorContainer);
+					//});
+				});
+			});
+		</script>
+	</body>
+</html>
+
